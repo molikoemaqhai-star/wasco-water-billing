@@ -9,7 +9,7 @@ export const pgPool = new Pool({
   port: env.pg.port,
   database: env.pg.database,
   user: env.pg.user,
-  password: env.pg.password
+  password: env.pg.password,
 });
 
 export const mysqlPool = mysql.createPool({
@@ -19,7 +19,7 @@ export const mysqlPool = mysql.createPool({
   user: env.mysql.user,
   password: env.mysql.password,
   waitForConnections: true,
-  connectionLimit: 10
+  connectionLimit: 10,
 });
 
 export async function testConnections() {
@@ -32,7 +32,7 @@ export async function testConnections() {
       pgClient.release();
     }
   } catch (error) {
-    console.error("PostgreSQL connection failed:");
+    console.error("PostgreSQL connection failed:", error.message);
     throw error;
   }
 
@@ -45,7 +45,6 @@ export async function testConnections() {
       mysqlConn.release();
     }
   } catch (error) {
-    console.error("MySQL connection failed:");
-    throw error;
+    console.warn("MySQL connection failed (non-fatal):", error.message);
   }
 }
