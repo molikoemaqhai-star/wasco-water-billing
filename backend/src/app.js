@@ -1,5 +1,6 @@
 import express from "express";
 import cors from "cors";
+
 import authRoutes from "./routes/authRoutes.js";
 import dashboardRoutes from "./routes/dashboardRoutes.js";
 import customersRoutes from "./routes/customersRoutes.js";
@@ -10,12 +11,37 @@ import paymentsRoutes from "./routes/paymentsRoutes.js";
 import leakagesRoutes from "./routes/leakagesRoutes.js";
 import reportsRoutes from "./routes/reportsRoutes.js";
 import metaRoutes from "./routes/metaRoutes.js";
+
 import { notFound } from "./middleware/notFound.js";
 import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
-app.use(cors());
+
+app.use(
+  cors({
+    origin: [
+      "https://wasco-water-billing.vercel.app",
+      "http://localhost:5173"
+    ],
+    methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allowedHeaders: [
+      "Content-Type",
+      "x-user-role",
+      "x-user-id",
+      "x-customer-id",
+      "x-branch-id"
+    ]
+  })
+);
+
 app.use(express.json());
+
+app.get("/", (req, res) => {
+  res.json({
+    message: "WASCO Water Billing Backend is running",
+    status: "OK"
+  });
+});
 
 app.get("/api/health", (req, res) => {
   res.json({ message: "WASCO API is running" });
