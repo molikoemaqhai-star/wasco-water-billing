@@ -12,8 +12,15 @@ export function LoginPage({ onLogin }) {
     event.preventDefault();
     setLoading(true);
     setError("");
+
     try {
-      const result = await api.post("/auth/login", form);
+      const result = await api.post("/auth/login", {
+        username: form.username.trim(),
+        password: form.password.trim()
+      });
+
+      localStorage.setItem("wasco-user", JSON.stringify(result.user));
+
       onLogin(result.user);
     } catch (err) {
       setError(err.message || "Invalid username or password.");
@@ -30,7 +37,6 @@ export function LoginPage({ onLogin }) {
   return (
     <div className="login-page">
       <div className="login-split">
-        {/* Promo panel */}
         <div className="login-promo hero-water">
           <img src={logo} alt="WASCO Logo" />
           <div className="promo-copy">
@@ -39,7 +45,6 @@ export function LoginPage({ onLogin }) {
           </div>
         </div>
 
-        {/* Login form */}
         <form className="login-card" onSubmit={submit}>
           <div className="login-brand">
             <img src={logo} alt="WASCO" className="brand-image" />
