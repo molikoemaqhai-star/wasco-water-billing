@@ -1,6 +1,10 @@
-const API_BASE = "http://localhost:4000/api";
+const API_BASE =
+  import.meta.env.VITE_API_URL ||
+  "https://wasco-water-billing-production.up.railway.app/api";
+
 function buildHeaders(extra = {}) {
   const user = JSON.parse(localStorage.getItem("wasco-user") || "null");
+
   return {
     "Content-Type": "application/json",
     ...(user?.role ? { "x-user-role": user.role } : {}),
@@ -10,15 +14,28 @@ function buildHeaders(extra = {}) {
     ...extra
   };
 }
+
 async function request(path, options = {}) {
-  const response = await fetch(`${API_BASE}${path}`, { ...options, headers: buildHeaders(options.headers || {}) });
+  const response = await fetch(`${API_BASE}${path}`, {
+    ...options,
+    headers: buildHeaders(options.headers || {})
+  });
+
   const data = await response.json().catch(() => ({}));
-  if (!response.ok) throw new Error(data.message || "Request failed");
+
+  if (!response.ok) {
+    throw new Error(data.message || "Request failed");
+  }
+
   return data;
 }
+
 export const api = {
   get: (path) => request(path),
-  post: (path, body) => request(path, { method: "POST", body: JSON.stringify(body) }),
-  put: (path, body) => request(path, { method: "PUT", body: JSON.stringify(body) }),
-  delete: (path) => request(path, { method: "DELETE" })
+  post: (path, body) =>
+    request(path, { method: "POST", body: JSON.stringify(body) }),
+  put: (path, body) =>
+    request(path, { method: "PUT", body: JSON.stringify(body) }),
+  delete: (path) =>
+    request(path, { method: "DELETE" })
 };
