@@ -96,7 +96,7 @@ export function LoginPage({ onLogin }) {
             <span style={{ cursor: "pointer", color: "var(--primary-dark)" }} onClick={() => fillDemo("manager", "manager123")}>
               🏢 Branch Manager: manager / manager123
             </span>
-            <span style={{ cursor: "pointer", color: "var(--primary-dark)" }} onClick={() => fillDemo("samuel", "admin123")}>
+            <span style={{ cursor: "pointer", color: "var(--primary-dark)" }} onClick={() => fillDemo("thabo", "admin123")}>
               👤 Customer: samuel / admin123
             </span>
           </div>
