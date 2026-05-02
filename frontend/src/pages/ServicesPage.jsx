@@ -53,7 +53,7 @@ export function ServicesPage() {
               <strong>Demo Accounts — Quick Access:</strong>
               <span>🔑 Admin: admin / admin123</span>
               <span>🏢 Branch Manager: manager / manager123</span>
-              <span>👤 Customer: samuel / admin123</span>
+              <span>👤 Customer: thabo / admin123</span>
             </div>
           </div>
           <div className="hero-water">
